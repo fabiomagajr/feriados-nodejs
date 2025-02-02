@@ -33,7 +33,7 @@
         async function buscarFeriados() {
             const ano = document.getElementById('ano').value;
             const url = `http://localhost:3000/feriados/${ano}`;
-
+            //API em funcionamento. Front nao funciona ainda
             try {
                 const response = await fetch(url);
                 if (!response.ok) throw new Error("Erro ao buscar feriados");
