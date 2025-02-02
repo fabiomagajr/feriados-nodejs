@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feriados no Brasil</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        input { padding: 8px; font-size: 16px; }
+        button { padding: 10px; font-size: 16px; margin-left: 5px; cursor: pointer; }
+        table { width: 50%; margin: 20px auto; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 10px; }
+        th { background-color: #f4f4f4; }
+    </style>
+</head>
+<body>
+    <h1>Consultar Feriados no Brasil</h1>
+    <input type="number" id="ano" placeholder="Digite um ano..." value="2024">
+    <button onclick="buscarFeriados()">Buscar Feriados</button>
+
+    <table id="tabela">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Nome</th>
+                <th>Tipo</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        async function buscarFeriados() {
+            const ano = document.getElementById('ano').value;
+            const url = `http://localhost:3000/feriados/${ano}`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error("Erro ao buscar feriados");
+                
+                const feriados = await response.json();
+                const tbody = document.querySelector("#tabela tbody");
+                tbody.innerHTML = ""; // Limpa os resultados anteriores
+
+                feriados.forEach(feriado => {
+                    const row = `<tr>
+                        <td>${feriado.data}</td>
+                        <td>${feriado.nome}</td>
+                        <td>${feriado.tipo}</td>
+                    </tr>`;
+                    tbody.innerHTML += row;
+                });
+            } catch (error) {
+                alert("Erro ao buscar os feriados!");
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+</html>
